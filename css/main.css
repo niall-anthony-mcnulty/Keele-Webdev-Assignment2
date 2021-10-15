@@ -1,3 +1,66 @@
-* { 
-    background-color : rgb(189, 189, 192) 
+/* Body styling */
+:root {
+    
+    --red: #ff1e42;
+    --darkred: #c3112d;   
 }
+
+body { 
+    background-color : 	#BDBDC0;
+    font-family: 'Sora', sans-serif;
+}
+
+.title { 
+    justify-content: center;
+    text-align: center;
+}
+
+header { 
+    margin-top:2%;
+
+}
+
+input { 
+
+    font-size: 1.3rem;
+    height: 40px;
+    margin-top: 8%;
+    margin-bottom: 2%;
+    border:none;
+    border-bottom: 2px solid black;
+    width: 80%;
+    background: none;
+    justify-content:center;
+    text-align:left;
+    
+}
+
+
+/* Remove blue outline for aesthetics despite it reducing usability for impaired */
+
+textarea:focus, input:focus {
+    outline: none;
+
+}
+
+button { 
+
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    padding: 15px 20px;
+    margin-left: 15px;
+    border-radius: 5px;
+    background:var(--red);
+    transition: background 0.3s ease-in-out;
+    border: none;
+    color: white;
+    cursor: pointer;
+    outline: none;
+   
+}
+
+button:hover {
+    background: var(--darkred);
+}
+

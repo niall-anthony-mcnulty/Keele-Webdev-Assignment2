@@ -27,7 +27,7 @@
                 </div>
             </div>
                 <div class='row justify-content-center no-gutters'>
-                    <div class ='col-xs-12 col-sm-10 col-md-10 col-lg-6'>
+                    <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
                         <form id='search-form'>
                             <input class = 'input-country' type='text' placeholder='Search cities worldwide' autofocus>
                         </form>
@@ -42,6 +42,17 @@
                     <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
                         <span class='searcherror'></span>
                     </div>          
+                </div>
+                <div> 
+            </div>
+        </div>
+        <div class='content container'>
+            <div class='center'>
+                <div class='row justify-content-center no-gutters'>
+                    <div class='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
+                        <p class='location'></p>
+                        <p class='temperature'></p>
+                    </div>
                 </div>
             </div>
         </div>
