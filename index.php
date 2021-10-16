@@ -12,9 +12,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Sora:wght@800&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Bellota&family=Bellota+Text&display=swap" rel="stylesheet", type='text/css'>
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="js/main.js"></script>
 </head>
 <body>
      <header>
@@ -28,14 +28,10 @@
             </div>
                 <div class='row justify-content-center no-gutters'>
                     <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
-                        <form id='search-form'>
+                        <form id='search-form' class='form-search'>
                             <input class = 'input-country' type='text' placeholder='Search cities worldwide' autofocus>
+                            <button type='submit' form='search-form'> SUBMIT</button>
                         </form>
-                    </div>
-                </div>
-                <div class='row justify-content-center no-gutters'>
-                    <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
-                        <button type='submit' form='search-form'> SUBMIT</button>
                     </div>
                 </div>
                 <div class='row justify-content-center no-gutters'>
@@ -50,8 +46,7 @@
             <div class='center'>
                 <div class='row justify-content-center no-gutters'>
                     <div class='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
-                        <p class='location'></p>
-                        <p class='temperature'></p>
+                        <ul class='location'></ul>
                     </div>
                 </div>
             </div>
