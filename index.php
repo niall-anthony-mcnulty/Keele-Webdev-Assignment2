@@ -17,17 +17,17 @@
         <script src="js/main.js"></script>
 </head>
 <body>
-     <header>
+    <main>
         <div class="title container">
             <div class='center'>
-                <div class='row justify-content-center no-gutters'>
-                    <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
+                <div class='row justify-content-center no-gutters top-clear'>
+                    <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6 titlediv'>
                         <h1>Worldwide Weather</h1> 
                     </div> 
                 </div>
             </div>
                 <div class='row justify-content-center no-gutters'>
-                    <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
+                    <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6 formdiv'>
                         <form id='search-form' class='form-search'>
                             <div>
                                 <input class = 'input-country' pattern= '^[a-zA-Z\s.,-]*' type='text' placeholder='Search cities worldwide' title='Please enter the English name for the city you require (dashes and fullstops allowed).' autofocus>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class='row justify-content-center no-gutters'>
-                    <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
+                    <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6 searcherrordiv'>
                         <span class='searcherror'></span>
                     </div>          
                 </div>
@@ -49,21 +49,13 @@
         <div class='content container'>
             <div class='center'>
                 <div class='row justify-content-center no-gutters'>
-                    <div class='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
+                    <div class='col-xs-12 col-sm-10 col-md-8 col-lg-6 locationdiv'>
                         <ul class='location'></ul>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
-    <main>
-    
-    
-
     </main>
-    <footer>
-
-    </footer>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </body>

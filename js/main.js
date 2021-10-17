@@ -39,7 +39,7 @@ $(document).ready(function(){
                 type: "POST",
                 dataType: 'json',
             }).done( function(response) {
-                const {main, name, sys, weather, dt} = response;
+                const {main, name, sys, weather, dt, cod} = response;
                 const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
 
                 addData();
@@ -48,17 +48,20 @@ $(document).ready(function(){
 
                     
                     weatherMain = capitalizeFirstLetter(weather[0].main);
-                    weatherIcon =weather[0].icon;
+                    weatherIcon = weather[0].icon;
                     weatherIconURL =  "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
                     weatherTemp = (Math.round(main.temp) + " C");
                     weatherCity = capitalizeFirstLetter(name);
+                    weatherCountry = (sys.country).toUpperCase();
+                    weatherTime = dt;
+                    apiStatus = cod;
 
-                    console.log(weatherIcon);
-                    console.log(weatherMain);
-                    console.log(weatherTemp);
                     console.log(response);
+                    console.log(cod);
+                    console.log(weatherTime);
+
                     
-                    $('.location').html("<li>" + weatherCity + "</li><li><img src="+ weatherIconURL +"></li><li>" + weatherMain + "</li><li>" + weatherTemp + "</li>");
+                    $('.location').html("<li>" + weatherCity + ", " + weatherCountry + "</li><li><img src="+ weatherIconURL +"></li><li>" + weatherMain + "</li><li>" + weatherTemp + "</li>");
                     
                 }
 
