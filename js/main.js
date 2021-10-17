@@ -17,7 +17,8 @@ $(document).ready(function(){
     formDetails.addEventListener("submit", e => {
         e.preventDefault();
         let inputVal = inputDetails.value;
-
+        
+        /* reset form and pass error message if no input */
         if (inputVal.length == 0) {
             $('span.searcherror').html('Please input a location');
             inputVal = null;
@@ -25,14 +26,15 @@ $(document).ready(function(){
             $('form').trigger('reset');
             $('#input-country').focus();
         }
-        
+        /* if only one string was entered, check API for city name only */
         else if ((inputVal.split(",").length === 1) && (inputVal.length > 0)) {
             inputVal = (inputVal).toLowerCase();
             console.log(inputVal);
             $('span.searcherror').html('');
             $('form').trigger('reset');
             $('#input-country').focus();
-
+            
+            /* call API */
             url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
             $.ajax({
                 url: url,
@@ -43,34 +45,34 @@ $(document).ready(function(){
                 const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
 
                 addData();
-
+                /* create a list to pass data into for display */
                 function addData() {
 
                     
-                    weatherMain = capitalizeFirstLetter(weather[0].main);
+                    weatherDescription = capitalizeFirstLetter(weather[0].description);
                     weatherIcon = weather[0].icon;
                     weatherIconURL =  "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
                     weatherTemp = (Math.round(main.temp) + " C");
                     weatherCity = capitalizeFirstLetter(name);
                     weatherCountry = (sys.country).toUpperCase();
                     weatherTime = dt;
-                    apiStatus = cod;
-
-                    console.log(response);
-                    console.log(cod);
-                    console.log(weatherTime);
-
+                    optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit'}
+                    weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
+                    WeatherMain = weather[0].main;
                     
-                    $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li><img src="+ weatherIconURL +"></li><li>" + weatherMain + "</li><li>" + weatherTemp + "</li>");
+                    /* temperorary log to check for data and errors */
+                    console.log(response);
+                    
+                    $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li><img class='weather-pics' src="+ weatherIconURL +"></li><li>" + weatherDescription + "</li><li>" + weatherTemp + "</li>");
                     
                 }
-
+                /* function to capitalize first letter of first string */
                 function capitalizeFirstLetter(string) {
                     return string.charAt(0).toUpperCase() + string.slice(1);
                 
                 }
 
-    
+            /* error handling */
             }).fail( function(jqXHR, exception) {
                 msg = '';
                 if (jqXHR.status === 0) {
@@ -107,7 +109,7 @@ $(document).ready(function(){
             $('#input-country').focus();
          
         }
-        
+        /* error handling */
         else {
             
             $('span.searcherror').html( 'Ensure the country code is 2 characters in length and seperated from the city location by a comma.');

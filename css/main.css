@@ -155,6 +155,7 @@ ul {
     .weather-city {
         margin-top: 3%;
         margin-bottom:0%;
+        font-size: 120%;
     
     }
 
@@ -168,6 +169,20 @@ ul {
         font-size: 60%;
         margin-top: 5%;
     }
+    
+    .country-time { 
+        font-size: 60%;
+    }
+
+    .weather-pics { 
+        width: 135px;
+        height: 135px;
+    }
+
+    .searcherror { 
+        font-size: 60%;
+        margin-top: 5%;
+    }
 }
 
 @media (min-width: 601px)  {
@@ -176,7 +191,19 @@ ul {
         background-image: url(../images/mainpic.jpg);
         background-size: cover;
         background-repeat: no-repeat;
-        
+    }
 
+    .country-time {
+        font-size: 50%;
+    }
+
+    .weather-pics { 
+        width: 170px;
+        height: 170px;
+    }
+
+    button { 
+       
+        margin-bottom: 3%;
     }
 }
