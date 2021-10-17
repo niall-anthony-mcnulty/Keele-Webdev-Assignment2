@@ -8,7 +8,6 @@
 body { 
     background-color : 	#BDBDC0;
     font-family: 'Sora', sans-serif;
-    background-image: url(../images/mainpic.jpg);
     background-size: cover;
     border-radius: 1rem;
 }
@@ -81,6 +80,7 @@ button {
     font-size: 1rem;
     font-weight: bold;
     letter-spacing: 0.1em;
+    margin-top: 3%;
     padding: 15px 20px;
     border-radius: 5px;
     background:var(--red);
@@ -112,4 +112,51 @@ ul {
 .location { 
 
     background-color: white;
+}
+
+/* media queries */
+
+@media (min-width: 0px) and (max-width: 600px) {
+    body {
+        background-image: url(..//images/mobilemain.jpg);
+        background-size: auto;
+        background-repeat: no-repeat;
+        
+    }
+
+    h1 { 
+        margin-top: 10%;
+        font-size: 80%;
+    }
+
+    .title { 
+
+        margin-top: 20%;
+        width: 60%;
+    }
+    
+    .input-country {
+        font-size: 80%;
+        width: 90%;
+    }
+
+    button { 
+        font-size: 0.6rem;
+        margin-top: 5%;
+    }
+
+    .container { 
+        width: 60%;
+    }
+}
+
+@media (min-width: 601px)  {
+
+    body {
+        background-image: url(../images/mainpic.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        
+
+    }
 }
