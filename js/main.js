@@ -61,7 +61,7 @@ $(document).ready(function(){
                     console.log(weatherTime);
 
                     
-                    $('.location').html("<li>" + weatherCity + ", " + weatherCountry + "</li><li><img src="+ weatherIconURL +"></li><li>" + weatherMain + "</li><li>" + weatherTemp + "</li>");
+                    $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li><img src="+ weatherIconURL +"></li><li>" + weatherMain + "</li><li>" + weatherTemp + "</li>");
                     
                 }
 
@@ -88,7 +88,7 @@ $(document).ready(function(){
                 } else {
                     msg = 'Uncaught Error.\n' + jqXHR.responseText;
                 }
-                $('.location').html("<li>" + msg + "</li>");
+                $('.location').html("<li class='errors'>" + msg + "</li>");
                  
             });
                 

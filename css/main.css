@@ -30,7 +30,7 @@ body {
 
 h1 { 
 
-    margin-top: 3%;
+    margin-top: 4%;
 }
 
 .formdiv {
@@ -56,7 +56,7 @@ input {
 
     font-size: 1.3rem;
     height: 40px;
-    margin-top: 8%;
+    margin-top: 5%;
     margin-bottom: 2%;
     border:none;
     border-bottom: 2px solid black;
@@ -107,6 +107,8 @@ ul {
     text-align: center;
     padding: 4%;
     background-color:white;
+    margin-top: 2%;
+    font-size: 130%;
 }
 
 .location { 
@@ -126,7 +128,7 @@ ul {
 
     h1 { 
         margin-top: 10%;
-        font-size: 80%;
+        font-size: 130%;
     }
 
     .title { 
@@ -147,6 +149,24 @@ ul {
 
     .container { 
         width: 60%;
+    }
+
+
+    .weather-city {
+        margin-top: 3%;
+        margin-bottom:0%;
+    
+    }
+
+    ul {
+        font-size: 85%;
+        margin: 0%;
+    }
+
+    .errors { 
+
+        font-size: 60%;
+        margin-top: 5%;
     }
 }
 
