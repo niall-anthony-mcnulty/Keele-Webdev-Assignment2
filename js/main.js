@@ -38,9 +38,6 @@ $(document).ready(function(){
                 url: url,
                 type: "POST",
                 dataType: 'json'
-                
-                    
-                
             }).done( function(response) {
                 const {main, name, sys, weather, dt, cod} = response;
                 const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
@@ -74,7 +71,27 @@ $(document).ready(function(){
                 }
 
     
-            })
+            }).fail( function(jqXHR, exception) {
+                msg = '';
+                if (jqXHR.status === 0) {
+                    msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
+                } else if (jqXHR.status == 404) {
+                    msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
+                } else if (jqXHR.status == 500) {
+                    msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                $('.location').html("<li>" + msg + "</li>");
+                 
+            });
+                
         }
 
         else if ((inputVal.split(',').length == 2) && (((inputVal.split(",")[1]).replace(/ /g,'')).length == 2)) {
@@ -93,7 +110,7 @@ $(document).ready(function(){
         
         else {
             
-            $('span.searcherror').html( 'Ensure the country code is 2 character in length and seperated from the city location by a comma.');
+            $('span.searcherror').html( 'Ensure the country code is 2 characters in length and seperated from the city location by a comma.');
             inputVal = null;
             console.log(inputVal);
             $('form').trigger('reset');
