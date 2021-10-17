@@ -49,7 +49,7 @@ $(document).ready(function(){
                 function addData() {
 
                     
-                    weatherDescription = capitalizeFirstLetter(weather[0].description);
+                    weatherMain = capitalizeFirstLetter(weather[0].main);
                     weatherIcon = weather[0].icon;
                     weatherIconURL =  "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
                     weatherTemp = (Math.round(main.temp) + " C");
@@ -58,20 +58,35 @@ $(document).ready(function(){
                     weatherTime = dt;
                     optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'}
                     weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
-                    WeatherMain = weather[0].main;
+                    
                     
                     /* temperorary log to check for data and errors */
                     console.log(response);
+                    console.log(typeof weatherMain)
                     
-                    $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li><img class='weather-pics' src="+ weatherIconURL +"></li><li>" + weatherDescription + "</li><li>" + weatherTemp + "</li>");
+                    $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li><img class='weather-pics' src="+ weatherIconURL +"></li><li>" + weatherMain + "</li><li>" + weatherTemp + "</li>");
                     
                 }
                 /* function to capitalize first letter of first string */
                 function capitalizeFirstLetter(string) {
                     return string.charAt(0).toUpperCase() + string.slice(1);
+                }   
                 
-                }
+                var x = window.matchMedia("(max-width: 600px)");
+                weatherPic(x);
+                
 
+                function weatherPic(x) {
+                    if (weatherMain == 'Clouds') {
+                        if (x.matches) {
+                            $('body').css("background-image", "url(" + "images/cloudy-mobile.jpg" + ")");
+                            }
+                        else {
+                            $('body').css("background-image", "url(" + "images/cloudy-desktop.jpg" + ")");   
+                        }
+                    }
+                    x.addListener(weatherPic)
+                }
             /* error handling */
             }).fail( function(jqXHR, exception) {
                 msg = '';
