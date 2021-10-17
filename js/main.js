@@ -56,7 +56,7 @@ $(document).ready(function(){
                     weatherCity = capitalizeFirstLetter(name);
                     weatherCountry = (sys.country).toUpperCase();
                     weatherTime = dt;
-                    optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit'}
+                    optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'}
                     weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
                     WeatherMain = weather[0].main;
                     
