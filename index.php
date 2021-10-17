@@ -29,8 +29,12 @@
                 <div class='row justify-content-center no-gutters'>
                     <div class ='col-xs-12 col-sm-10 col-md-8 col-lg-6'>
                         <form id='search-form' class='form-search'>
-                            <input class = 'input-country' type='text' placeholder='Search cities worldwide' autofocus>
-                            <button type='submit' form='search-form'> SUBMIT</button>
+                            <div>
+                                <input class = 'input-country' pattern= '^[a-zA-Z\s.,-]*' type='text' placeholder='Search cities worldwide' title='Please enter the English name for the city you require (dashes and fullstops allowed).' autofocus>
+                            </div>
+                            <div>
+                                <button type='submit' form='search-form'> SUBMIT</button>
+                            </div>  
                         </form>
                     </div>
                 </div>
