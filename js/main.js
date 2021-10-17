@@ -37,7 +37,10 @@ $(document).ready(function(){
             $.ajax({
                 url: url,
                 type: "POST",
-                dataType: 'json',
+                dataType: 'json'
+                
+                    
+                
             }).done( function(response) {
                 const {main, name, sys, weather, dt, cod} = response;
                 const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
@@ -71,10 +74,7 @@ $(document).ready(function(){
                 }
 
     
-            });
-                
-           
-            
+            })
         }
 
         else if ((inputVal.split(',').length == 2) && (((inputVal.split(",")[1]).replace(/ /g,'')).length == 2)) {
