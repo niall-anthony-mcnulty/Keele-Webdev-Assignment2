@@ -66,7 +66,7 @@ $(document).ready(function(){
                     var values = {'main': $('.weather-main').html(), 'city-name' : $('.weather-city').html(),  'weatherIcon': $('.weather-icon-url').html(), 'temp' : $('.weather-temp').html(), 'date' : $('.country-time').html() };
                     $.ajax({
                             type: 'POST',
-                            url: 'index.php',
+                            url: './index.php',
                             dataType: "json",
                             data: values,
                             success: (function (data){
