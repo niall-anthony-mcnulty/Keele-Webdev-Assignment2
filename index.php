@@ -1,8 +1,3 @@
-<?php 
-
-    require('addweather.php');
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,6 +52,10 @@
                     <div class='col-xs-12 col-sm-10 col-md-8 col-lg-6 locationdiv'>
                         <ul class='location'>
                         </ul>
+                        <?php 
+                        $vals=$_POST['weather'];
+                        echo $vals
+                        ?>  
                     </div>
                 </div>
             </div>

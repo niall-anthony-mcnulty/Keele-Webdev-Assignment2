@@ -36,7 +36,7 @@ $(document).ready(function(){
             url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
             $.ajax({
                 url: url,
-                type: "GET",
+                type: "POST",
                 dataType: 'json',
                 }).done( function(response) {
                     const {main, name, sys, weather, dt, cod} = response;
@@ -46,7 +46,6 @@ $(document).ready(function(){
                     /* create a list to pass data into for display */
                     function addData() {
 
-                            
                         weatherMain = capitalizeFirstLetter(weather[0].main);
                         weatherIcon = weather[0].icon;
                         weatherIconURL =  "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
@@ -59,16 +58,31 @@ $(document).ready(function(){
                         
                             
                         $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li class='weather-icon-url'><img class='weather-pics' src="+ weatherIconURL +"></li><li class='weather-main'>" + weatherMain + "</li><li class='weather-temp'>" + weatherTemp + "</li>");
-                        };
 
-                    // push to php file //                                   
-                    var values = {'weather':weatherMain,'icon':weatherIconURL,'temp':weatherTemp, 'date':weatherDate};
-                    
-                    
+                        // save to php function // 
+                        var values = {'weather':weather[0].main,'icon':"http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png",'temp':(Math.round(main.temp) + " C"), 'date':new Date(dt*1000).toLocaleDateString("en-GB", optionsDate)};
+                        console.log(values);         
+                       
+                        if(values!='') {
+                            url = './index.php';
+                            $.ajax({
+                                data: values,
+                                url: url,
+                                type: "POST",
+                                dataType: "json"
+                            }).done( function(response) {
+                                alert("Success");
+                            });
+                            }else{
+                                alert("You need to fill in all details");
+                                }   
+                            }
+                            
+                            
                     /* function to capitalize first letter of first string */
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);
-                    }
+                        }
                     /* function to change background image depending on weather and screen size */
                     /* ref - https://pixabay.com/photos/ */
                 
@@ -151,19 +165,10 @@ $(document).ready(function(){
                         x.addListener(weatherPic)
 
                     };
-                    // push to php //
-                    $.ajax({
-                        url: 'addweather.php',
-                        type: "POST",
-                        dataType: 'json',
-                        data: values,
-                        success: function() {
-                            alert("works");
-                            console.log(data);
-                        }
-                    });
 
-                            
+                   
+
+                  
                 /* error handling */
                 }).fail( function(jqXHR, exception) {
                     msg = '';
@@ -185,6 +190,10 @@ $(document).ready(function(){
                     $('.location').html("<li class='errors'>" + msg + "</li>");
                     
                 });
+
+                
+                
+             
         }
 
         else if ((inputVal.split(',').length == 2) && (((inputVal.split(",")[1]).replace(/ /g,'')).length == 2)) {
@@ -202,7 +211,7 @@ $(document).ready(function(){
              url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
              $.ajax({
                  url: url,
-                 type: "GET",
+                 type: "POST",
                  dataType: 'json'
                 }).done( function(response) {
                  const {main, name, sys, weather, dt, cod} = response;
