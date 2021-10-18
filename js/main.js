@@ -53,32 +53,38 @@ $(document).ready(function(){
                         weatherCity = capitalizeFirstLetter(name);
                         weatherCountry = (sys.country).toUpperCase();
                         weatherTime = dt;
-                        optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'}
+                        optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'};
                         weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
+
+                            
                         
                             
                         $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li class='weather-icon-url'><img class='weather-pics' src="+ weatherIconURL +"></li><li class='weather-main'>" + weatherMain + "</li><li class='weather-temp'>" + weatherTemp + "</li>");
 
+                        };
+                        
                         // save to php function // 
-                        var values = {'weather':weather[0].main,'icon':"http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png",'temp':(Math.round(main.temp) + " C"), 'date':new Date(dt*1000).toLocaleDateString("en-GB", optionsDate)};
-                        console.log(values);         
+                    var values = {'weather':weather[0].main,'icon':"http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png",'temp':(Math.round(main.temp) + " C"), 'date':new Date(dt*1000).toLocaleDateString("en-GB", optionsDate)};
+                           
                        
-                        if(values!='') {
-                            url = './index.php';
-                            $.ajax({
-                                data: values,
-                                url: url,
-                                type: "POST",
-                                dataType: "json"
-                            }).done( function(response) {
-                                alert("Success");
+                    if(values!='') {
+                        url = './index.php';
+                        
+                        $.ajax({
+                            data: {'icon': "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png"},
+                            url: url,
+                            type: "GET",
+                            dataType: "json"
+                        }).done( function(response) {
+                            if(response.success){
+                                $('.testing').html("Successfully added user");
+                                console.log(response);
+                          }else{
+                                $('.testing').html("Error adding user: " + response.error);
+                                };
                             });
-                            }else{
-                                alert("You need to fill in all details");
-                                }   
-                            }
-                            
-                            
+                    };
+                         
                     /* function to capitalize first letter of first string */
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -163,12 +169,7 @@ $(document).ready(function(){
                                 }
                         }
                         x.addListener(weatherPic)
-
                     };
-
-                   
-
-                  
                 /* error handling */
                 }).fail( function(jqXHR, exception) {
                     msg = '';
@@ -189,13 +190,8 @@ $(document).ready(function(){
                     }
                     $('.location').html("<li class='errors'>" + msg + "</li>");
                     
-                });
-
-                
-                
-             
+                });     
         }
-
         else if ((inputVal.split(',').length == 2) && (((inputVal.split(",")[1]).replace(/ /g,'')).length == 2)) {
 
             contentList = [];
