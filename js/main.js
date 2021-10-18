@@ -24,7 +24,7 @@ $(document).ready(function(){
             inputVal = null;
             $('form').trigger('reset');
             $('#input-country').focus();
-        }
+            }
         /* if only one string was entered, check API for city name only */
         else if ((inputVal.split(",").length === 1) && (inputVal.length > 0)) {
             inputVal = (inputVal).toLowerCase();
@@ -46,7 +46,7 @@ $(document).ready(function(){
                     /* create a list to pass data into for display */
                     function addData() {
 
-                        
+                            
                         weatherMain = capitalizeFirstLetter(weather[0].main);
                         weatherIcon = weather[0].icon;
                         weatherIconURL =  "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
@@ -57,38 +57,24 @@ $(document).ready(function(){
                         optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'}
                         weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
                         
-                        
+                            
                         $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li class='weather-icon-url'><img class='weather-pics' src="+ weatherIconURL +"></li><li class='weather-main'>" + weatherMain + "</li><li class='weather-temp'>" + weatherTemp + "</li>");
-                        }
-                    
-                    });
+                        };
 
-                
                     // push to php file //                                   
                     var values = {'weather':weatherMain,'icon':weatherIconURL,'temp':weatherTemp, 'date':weatherDate};
                     
-                    $.ajax({
-                        url: 'addweather.php',
-                        type: "POST",
-                        dataType: 'json',
-                        data: values,
-                        success: function() {
-                            alert("works");
-                            console.log(data);
-                        }
-                    });
-
+                    
                     /* function to capitalize first letter of first string */
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);
-                    
                     }
                     /* function to change background image depending on weather and screen size */
                     /* ref - https://pixabay.com/photos/ */
                 
                     var x = window.matchMedia("(max-width: 600px)");
                     weatherPic(x);
-        
+            
                     function weatherPic(x) {
                         if (weatherMain == 'Clouds') {
                             if (x.matches) {
@@ -161,12 +147,23 @@ $(document).ready(function(){
                             else {
                                 $('body').css("background-image", "url(" + "images/mainpic.jpg" + ")");   
                                 }
+                        }
+                        x.addListener(weatherPic)
 
-                        };
-                        
-                    x.addListener(weatherPic)
-                
-            
+                    };
+                    // push to php //
+                    $.ajax({
+                        url: 'addweather.php',
+                        type: "POST",
+                        dataType: 'json',
+                        data: values,
+                        success: function() {
+                            alert("works");
+                            console.log(data);
+                        }
+                    });
+
+                            
                 /* error handling */
                 }).fail( function(jqXHR, exception) {
                     msg = '';
@@ -187,13 +184,9 @@ $(document).ready(function(){
                     }
                     $('.location').html("<li class='errors'>" + msg + "</li>");
                     
-                    });
-                }); 
-        
-        };
-        
-    
-    
+                });
+        }
+
         else if ((inputVal.split(',').length == 2) && (((inputVal.split(",")[1]).replace(/ /g,'')).length == 2)) {
 
             contentList = [];
@@ -211,7 +204,7 @@ $(document).ready(function(){
                  url: url,
                  type: "GET",
                  dataType: 'json'
-             }).done( function(response) {
+                }).done( function(response) {
                  const {main, name, sys, weather, dt, cod} = response;
                  const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
  
@@ -236,7 +229,7 @@ $(document).ready(function(){
                      
                      $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li><img class='weather-pics' src="+ weatherIconURL +"></li><li>" + weatherMain + "</li><li>" + weatherTemp + "</li>");
                      
-                 }
+                };
                  /* function to capitalize first letter of first string */
                  function capitalizeFirstLetter(string) {
                      return string.charAt(0).toUpperCase() + string.slice(1);
@@ -325,7 +318,7 @@ $(document).ready(function(){
                     }
                     
                      x.addListener(weatherPic)
-                 }
+                }
              /* error handling */
              }).fail( function(jqXHR, exception) {
                  msg = '';
