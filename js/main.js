@@ -13,6 +13,7 @@ $(document).ready(function(){
         
     const formDetails = document.querySelector("form.form-search");
     const inputDetails = document.querySelector("input.input-country");
+    
 
     formDetails.addEventListener("submit", e => {
         e.preventDefault();
@@ -36,7 +37,7 @@ $(document).ready(function(){
             url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
             $.ajax({
                 url: url,
-                type: "POST",
+                type: "GET",
                 dataType: 'json'})
                 .done (function(response1) {
                     const {main, name, sys, weather, dt, cod} = response1;
@@ -155,18 +156,20 @@ $(document).ready(function(){
                                      date : weatherDate};
                           }
 
-                        var data_for_php = generateDataForPhp();
+                          var data_for_php = generateDataForPhp();
                         
                         // second ajax call to php file //
                         $.ajax({
                             type: 'POST',
                             url: './addweather.php',
                             dataType: "json",
-                            data: data_for_php,
-                            }).done((response2) => {
-                                    console.log(response2);
+                            data: data_for_php
+                        }).done(function (response2){
+                            console.log(response2);
+                            
+                        })
 
-                                })
+                            
                             .fail (function(jqXHR, exception) {
                             msg = '';
                             if (jqXHR.status === 0) {
@@ -232,7 +235,7 @@ $(document).ready(function(){
              url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
              $.ajax({
                  url: url,
-                 type: "POST",
+                 type: "GET",
                  dataType: 'json'
                 }).done( function(response) {
                  const {main, name, sys, weather, dt, cod} = response;
@@ -364,7 +367,7 @@ $(document).ready(function(){
                         type: 'POST',
                         url: './addweather.php',
                         dataType: "json",
-                        data: data_for_php,
+                        data: data_for_php
                         }).done((response2) => {
                                 console.log(response2);
 
