@@ -14,7 +14,8 @@ $arr = array('temp' => $temp, 'cityname' => $cityname, 'weatherIcon' => $weather
 
 if(isset($_POST['main']) && !empty($_POST['temp']) && gettype($_POST['main']=='string')) 
     {
-        $query = mysqli_query($mysqli_connection, "INSERT into `bugs` (`ticket_author`, `ticket_link`, `ticket_status`, `ticket_message`) VALUES('$name', '$link','$status', '$desc')");;
+
+    echo json_encode($arr);
     }
 
 ?>
