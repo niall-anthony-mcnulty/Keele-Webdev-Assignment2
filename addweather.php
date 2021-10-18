@@ -10,25 +10,11 @@ $weatherIcon = $_POST['weatherIcon'];
 $temp = $_POST['temp'];
 $date = $_POST['date'];
 
-$msg = gettype($main);
+$arr = array('temp' => $temp, 'cityname' => $cityname, 'weatherIcon' => $weatherIcon, 'main' => $main, 'date' => $date);
 
-
-/*
-//insert into database
-$sql = "INSERT INTO weatherHistory VALUES (DEFAULT,'$main', '$date', '$tempt', '$weatherIcon', '$cityname')";   
-mysqli_query($conn, $sql);
-// close connection
-mysqli_close($conn);
-
-*/
-/// END
-
-
-// RETURN SOME JSON BACK TO AJAX CALL
-$arr = array('msg' => $msg, 'temp' => $temp, 'cityname' => $cityname, 'weatherIcon' => $weatherIcon, 'main' => $main, 'date' => $date);
-
-// ****ANYTHING*** you echo will go back to AJAX. So 100% make sure its JSON
-echo json_encode($arr);
-
+if(isset($_POST['main']) && !empty($_POST['temp']) && gettype($_POST['main']=='string')) 
+    {
+        $query = mysqli_query($mysqli_connection, "INSERT into `bugs` (`ticket_author`, `ticket_link`, `ticket_status`, `ticket_message`) VALUES('$name', '$link','$status', '$desc')");;
+    }
 
 ?>

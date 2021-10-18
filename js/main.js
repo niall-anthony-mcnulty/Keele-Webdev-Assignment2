@@ -164,10 +164,10 @@ $(document).ready(function(){
                             url: './addweather.php',
                             dataType: "json",
                             data: data_for_php
-                        }).done(function (response2){
-                            console.log(response2);
-                            
-                        })
+                        }).done((response2) => {
+                                console.log(response2);
+
+                            })
 
                             
                             .fail (function(jqXHR, exception) {
