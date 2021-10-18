@@ -36,9 +36,9 @@ $(document).ready(function(){
             url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
             $.ajax({
                 url: url,
-                type: "POST",
+                type: "GET",
                 dataType: 'json',
-                }).done( function(response) {
+                success: (function(response) {
                     const {main, name, sys, weather, dt, cod} = response;
                     const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
 
@@ -55,36 +55,25 @@ $(document).ready(function(){
                         weatherTime = dt;
                         optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'};
                         weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
-
-                            
-                        
-                            
+    
                         $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li class='weather-icon-url'><img class='weather-pics' src="+ weatherIconURL +"></li><li class='weather-main'>" + weatherMain + "</li><li class='weather-temp'>" + weatherTemp + "</li>");
 
                         };
                         
                         // save to php function // 
-                    var values = {'weather':weather[0].main,'icon':"http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png",'temp':(Math.round(main.temp) + " C"), 'date':new Date(dt*1000).toLocaleDateString("en-GB", optionsDate)};
-                           
-                       
-                    if(values!='') {
-                        url = './index.php';
-                        
-                        $.ajax({
-                            data: {'icon': "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png"},
-                            url: url,
-                            type: "GET",
-                            dataType: "json"
-                        }).done( function(response) {
-                            if(response.success){
-                                $('.testing').html("Successfully added user");
+                    
+                    var values = {weather:"weather[0].main,'icon':'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'",temp:"(Math.round(main.temp) + ' C')", date:"new Date(dt*1000).toLocaleDateString('en-GB', optionsDate)"};
+                    $.ajax({
+                            type: 'POST',
+                            url: './index.php',
+                            dataType: "json",
+                            data: {values},
+                            success: (function (response){
                                 console.log(response);
-                          }else{
-                                $('.testing').html("Error adding user: " + response.error);
-                                };
-                            });
-                    };
-                         
+                                alert('Worked');
+                            })
+                        });
+                       
                     /* function to capitalize first letter of first string */
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -189,9 +178,10 @@ $(document).ready(function(){
                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
                     }
                     $('.location').html("<li class='errors'>" + msg + "</li>");
-                    
-                });     
-        }
+                  
+                }) 
+            });  
+        }    
         else if ((inputVal.split(',').length == 2) && (((inputVal.split(",")[1]).replace(/ /g,'')).length == 2)) {
 
             contentList = [];
