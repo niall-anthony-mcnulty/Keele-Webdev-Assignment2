@@ -39,7 +39,6 @@ $(document).ready(function(){
                 type: "POST",
                 dataType: 'json'})
                 .done (function(response1) {
-                    console.log("hello");
                     const {main, name, sys, weather, dt, cod} = response1;
                     const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
 
@@ -57,7 +56,7 @@ $(document).ready(function(){
                         optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'};
                         weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
     
-                        $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li class='weather-icon-url'><img class='weather-pics' src="+ weatherIconURL +"></li><li class='weather-main'>" + weatherMain + "</li><li class='weather-temp'>" + weatherTemp + "</li>");
+                        $('.location').html(`<li class='weather-city'>${weatherCity}, ${weatherCountry}</li><li class='country-time'>${weatherDate}</li><li class='weather-icon-url'><img class='weather-pics' src=${weatherIconURL}></li><li class='weather-main'>${weatherMain}</li><li class='weather-temp'>${weatherTemp}</li>`);
 
                         };
                         
@@ -147,22 +146,50 @@ $(document).ready(function(){
                                 };
                             };
                         x.addListener(weatherPic)
+
+                        function generateDataForPhp() {
+                            return {main: weatherMain, 
+                                     cityname : weatherCity, 
+                                     weatherIcon: weatherIconURL, 
+                                     temp : weatherTemp,
+                                     date : weatherDate};
+                          }
+
+                        var data_for_php = generateDataForPhp();
                         
                         // second ajax call to php file //
                         $.ajax({
                             type: 'POST',
                             url: './addweather.php',
                             dataType: "json",
-                            data: {main: $('.weather-main').val(), 
-                                   cityname : $('.weather-city').val(), 
-                                   weatherIcon: $('.weather-icon-url').val(), 
-                                   temp : $('.weather-temp').val(),
-                                   date : $('.country-time').val()},
-                            }).done(function (response2){
-                                console.log('response1:' + response1)
-                                console.log(response2);
-                                alert('Worked');
-                            });
+                            data: data_for_php,
+                            }).done((response2) => {
+                                    console.log(response2);
+
+                                })
+                            .fail (function(jqXHR, exception) {
+                            msg = '';
+                            if (jqXHR.status === 0) {
+                                msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
+                            } else if (jqXHR.status == 404) {
+                                msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
+                            } else if (jqXHR.status == 500) {
+                                msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
+                            } else if (exception === 'parsererror') {
+                                msg = 'Requested JSON parse failed.';
+                            } else if (exception === 'timeout') {
+                                msg = 'Time out error.';
+                            } else if (exception === 'abort') {
+                                msg = 'Ajax request aborted.';
+                            } else {
+                                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                            }
+                            $('.location').html("<li class='errors'>" + msg + "</li>");
+                           
+                            console.log("AJAX to PHP server failed");
+                            console.log(msg);
+                            
+                            }); 
                     
                     };
 
@@ -321,6 +348,27 @@ $(document).ready(function(){
                     }
                     
                      x.addListener(weatherPic)
+
+                     function generateDataForPhp() {
+                        return {main: weatherMain, 
+                                 cityname : weatherCity, 
+                                 weatherIcon: weatherIconURL, 
+                                 temp : weatherTemp,
+                                 date : weatherDate};
+                      }
+
+                    var data_for_php = generateDataForPhp();
+                    
+                    // second ajax call to php file //
+                    $.ajax({
+                        type: 'POST',
+                        url: './addweather.php',
+                        dataType: "json",
+                        data: data_for_php,
+                        }).done((response2) => {
+                                console.log(response2);
+
+                            })
                 }
              /* error handling */
              }).fail( function(jqXHR, exception) {

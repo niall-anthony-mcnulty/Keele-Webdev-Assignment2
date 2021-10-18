@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,10 +55,6 @@
                     </div>
                     <div>
                         <p class='testing'>
-                        <?php 
-
-                            print_r($_POST);
-                        ?>
                         </p>
                     </div>
                 </div>
