@@ -37,10 +37,10 @@ $(document).ready(function(){
             $.ajax({
                 url: url,
                 type: "POST",
-                dataType: 'json',
-                success: (function(response) {
+                dataType: 'json'})
+                .done (function(response1) {
                     console.log("hello");
-                    const {main, name, sys, weather, dt, cod} = response;
+                    const {main, name, sys, weather, dt, cod} = response1;
                     const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
 
                     addData();
@@ -61,19 +61,7 @@ $(document).ready(function(){
 
                         };
                         
-                        // save to php function // 
-                    
-                    var values = {'main': $('.weather-main').html(), 'city-name' : $('.weather-city').html(),  'weatherIcon': $('.weather-icon-url').html(), 'temp' : $('.weather-temp').html(), 'date' : $('.country-time').html() };
-                    $.ajax({
-                            type: 'POST',
-                            url: './index.php',
-                            dataType: "json",
-                            data: values,
-                            success: (function (data){
-                                console.log(data);
-                                alert('Worked');
-                            })
-                        });
+                   
                         
                     /* function to capitalize first letter of first string */
                     function capitalizeFirstLetter(string) {
@@ -156,33 +144,51 @@ $(document).ready(function(){
                                 }
                             else {
                                 $('body').css("background-image", "url(" + "images/mainpic.jpg" + ")");   
-                                }
-                        };
+                                };
+                            };
                         x.addListener(weatherPic)
+                        
+                        // second ajax call to php file //
+                        $.ajax({
+                            type: 'POST',
+                            url: './addweather.php',
+                            dataType: "json",
+                            data: {main: $('.weather-main').val(), 
+                                   cityname : $('.weather-city').val(), 
+                                   weatherIcon: $('.weather-icon-url').val(), 
+                                   temp : $('.weather-temp').val(),
+                                   date : $('.country-time').val()},
+                            }).done(function (response2){
+                                console.log('response1:' + response1)
+                                console.log(response2);
+                                alert('Worked');
+                            });
+                    
                     };
+
                 /* error handling */
-                }),
-                error: (function(jqXHR, exception) {
-                    msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
-                    } else if (jqXHR.status == 404) {
-                        msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
-                    } else if (jqXHR.status == 500) {
-                        msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                    $('.location').html("<li class='errors'>" + msg + "</li>");
-                  
-                }) 
-            });  
+                })
+                .fail (function(jqXHR, exception) {
+                msg = '';
+                if (jqXHR.status === 0) {
+                    msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
+                } else if (jqXHR.status == 404) {
+                    msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
+                } else if (jqXHR.status == 500) {
+                    msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                $('.location').html("<li class='errors'>" + msg + "</li>");
+                
+                }); 
+        
         }    
         else if ((inputVal.split(',').length == 2) && (((inputVal.split(",")[1]).replace(/ /g,'')).length == 2)) {
 
