@@ -58,7 +58,7 @@
                         <p class='testing'>
                         <?php 
 
-                            print_r($_POST());
+                            print_r($_POST);
                         ?>
                         </p>
                     </div>
