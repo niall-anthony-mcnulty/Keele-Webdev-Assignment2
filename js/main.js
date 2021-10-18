@@ -39,6 +39,7 @@ $(document).ready(function(){
                 type: "GET",
                 dataType: 'json',
                 success: (function(response) {
+                    console.log("hello");
                     const {main, name, sys, weather, dt, cod} = response;
                     const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
 
@@ -62,14 +63,14 @@ $(document).ready(function(){
                         
                         // save to php function // 
                     
-                    var values = {weather:"weather[0].main,'icon':'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'",temp:"(Math.round(main.temp) + ' C')", date:"new Date(dt*1000).toLocaleDateString('en-GB', optionsDate)"};
+                    var values = {'weather':weather[0].main, 'icon':'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png','temp':(Math.round(main.temp) + ' C'), 'date' : new Date(dt*1000).toLocaleDateString('en-GB', optionsDate)};
                     $.ajax({
                             type: 'POST',
                             url: './index.php',
                             dataType: "json",
                             data: {values},
-                            success: (function (response){
-                                console.log(response);
+                            success: (function (data){
+                                console.log(data);
                                 alert('Worked');
                             })
                         });
@@ -156,11 +157,12 @@ $(document).ready(function(){
                             else {
                                 $('body').css("background-image", "url(" + "images/mainpic.jpg" + ")");   
                                 }
-                        }
+                        };
                         x.addListener(weatherPic)
                     };
                 /* error handling */
-                }).fail( function(jqXHR, exception) {
+                }),
+                error: (function(jqXHR, exception) {
                     msg = '';
                     if (jqXHR.status === 0) {
                         msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
