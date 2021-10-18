@@ -36,7 +36,7 @@ $(document).ready(function(){
             url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
             $.ajax({
                 url: url,
-                type: "GET",
+                type: "POST",
                 dataType: 'json',
                 success: (function(response) {
                     console.log("hello");
@@ -63,18 +63,18 @@ $(document).ready(function(){
                         
                         // save to php function // 
                     
-                    var values = {'weather':weather[0].main, 'icon':'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png','temp':(Math.round(main.temp) + ' C'), 'date' : new Date(dt*1000).toLocaleDateString('en-GB', optionsDate)};
+                    var values = {'main': $('.weather-main').html(), 'city-name' : $('.weather-city').html(),  'weatherIcon': $('.weather-icon-url').html(), 'temp' : $('.weather-temp').html(), 'date' : $('.country-time').html() };
                     $.ajax({
                             type: 'POST',
-                            url: './index.php',
+                            url: 'index.php',
                             dataType: "json",
-                            data: {values},
+                            data: values,
                             success: (function (data){
                                 console.log(data);
                                 alert('Worked');
                             })
                         });
-                       
+                        
                     /* function to capitalize first letter of first string */
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);

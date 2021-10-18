@@ -34,7 +34,7 @@
                                 <input class = 'input-country' pattern= '^[a-zA-Z\s.,-]*' type='text' placeholder='Search cities worldwide' title='Please enter the English name for the city you require (dashes and fullstops allowed).' autofocus>
                             </div>
                             <div>
-                                <button type='submit' form='search-form'>SUBMIT</button>
+                                <button type='submit' form='search-form'>foSUBMIT</button>
                             </div>  
                         </form>
                     </div>
