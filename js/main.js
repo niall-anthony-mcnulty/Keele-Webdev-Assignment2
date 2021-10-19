@@ -207,13 +207,14 @@ $(document).ready(function(){
                                 console.log(response3)
                                 if (response3.length > 0) {
 
-                                }
+                                
                                 for(var i = 0; i < response3.length; i++) {
                                     var obj = response3[i]
                                     console.log(obj);
                                     // create lists from response obj
                                     $('.city-history').html("<p class='weather'>Past Weather</p><li class='historytime'>" +obj[1]+ "</li><li class='historyicon'><img src=" +obj[2]+"></li><li class='historydescription'>" + obj[0] + "</li>")
                                      
+                                }
                                 }
                             })
 
@@ -453,13 +454,13 @@ $(document).ready(function(){
                                 console.log(response3)
                                 if (response3.length > 0) {
 
-                                }
+                                
                                 for(var i = 0; i < response3.length; i++) {
                                     var obj = response3[i]
                                     console.log(obj);
                                     // create lists from response obj
                                     $('.city-history').html("<p class='weather'>Past Weather</p></li><li class='historytime'>" +obj[1]+ "</li><li class='historyicon'><img src=" +obj[2]+"></li><li class='historydescription'>" + obj[0] + "</li>")
-                                     
+                                    }    
                                 }
                             })
 
