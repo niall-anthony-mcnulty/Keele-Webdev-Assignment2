@@ -38,7 +38,9 @@ $(document).ready(function(){
             $.ajax({
                 url: url,
                 type: "POST",
-                dataType: 'json'})
+                dataType: 'json',
+                cache: false,
+                })
                 .done (function(response1) {
                     const {main, name, sys, weather, dt, cod} = response1;
                     const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
@@ -163,7 +165,8 @@ $(document).ready(function(){
                             type: 'POST',
                             url: './addweather.php',
                             dataType: "json",
-                            data: data_for_php
+                            data: data_for_php,
+                            cache: false
                         }).done((response2) => {
                                 console.log(response2);
 
@@ -236,7 +239,8 @@ $(document).ready(function(){
              $.ajax({
                  url: url,
                  type: "POST",
-                 dataType: 'json'
+                 dataType: 'json',
+                 cache: false
                 }).done( function(response) {
                  const {main, name, sys, weather, dt, cod} = response;
                  const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
@@ -367,7 +371,8 @@ $(document).ready(function(){
                         type: 'POST',
                         url: './addweather.php',
                         dataType: "json",
-                        data: data_for_php
+                        data: data_for_php,
+                        cache: false
                         }).done((response2) => {
                                 console.log(response2);
 
