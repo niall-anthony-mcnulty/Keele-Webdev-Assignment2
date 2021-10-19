@@ -165,8 +165,7 @@ $(document).ready(function(){
                             type: 'POST',
                             url: './addweather.php',
                             dataType: "json",
-                            data: data_for_php,
-                            cache: false
+                            data: data_for_php
                         }).done((response2) => {
                                 console.log(response2);
 
@@ -371,8 +370,7 @@ $(document).ready(function(){
                         type: 'POST',
                         url: './addweather.php',
                         dataType: "json",
-                        data: data_for_php,
-                        cache: false
+                        data: data_for_php
                         }).done((response2) => {
                                 console.log(response2);
 
