@@ -2,7 +2,7 @@
 
 
 include 'includes/dblogin.php';
-//print_r($_POST);
+//get data;
 
 $main = $_REQUEST['main'];
 $cityName = $_REQUEST['cityName'];
@@ -10,7 +10,8 @@ $weatherIcon = $_REQUEST['weatherIcon'];
 $date = $_REQUEST['date'];
 $temp = $_REQUEST['temp'];
 
-$sql = "INSERT INTO weatherHistory (id, weatherMain, weatherDate, weatherTemp, weatherIconUrl,cityName) VALUES (DEFAULT, '$main', '$date', '$temp', '$weatherIcon', '$cityName')";
+// query
+$sql = "INSERT INTO weatherHistory (id, weatherMain, weatherDate, weatherTemp, weatherIconUrl,city) VALUES (DEFAULT, '$main', '$date', '$temp', '$weatherIcon', '$cityName')";
     
 if (mysqli_query($conn, $sql))
 {

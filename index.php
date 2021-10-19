@@ -54,9 +54,15 @@
                         <ul class='location'>
                         </ul>
                     </div>
-                    <div>
-                        <p class='testing'>
-                        </p>
+                </div>
+            </div>
+        </div>
+        <div class='history container'>
+            <div class='center'>
+                <div class='row justify-content-center no-gutters'>
+                    <div class='col-xs-12 col-sm-10 col-md-8 col-lg-6 locationhistory'>
+                        <ul class='city-history'>
+                        </ul>
                     </div>
                 </div>
             </div>

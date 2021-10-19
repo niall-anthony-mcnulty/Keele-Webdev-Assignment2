@@ -169,9 +169,55 @@ $(document).ready(function(){
                         }).done((response2) => {
                                 console.log(response2);
 
+
                             })
 
+                            // error handling
+                            .fail (function(jqXHR, exception) {
+                            msg = '';
+                            if (jqXHR.status === 0) {
+                                msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
+                            } else if (jqXHR.status == 404) {
+                                msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
+                            } else if (jqXHR.status == 500) {
+                                msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
+                            } else if (exception === 'parsererror') {
+                                msg = 'Requested JSON parse failed.';
+                            } else if (exception === 'timeout') {
+                                msg = 'Time out error.';
+                            } else if (exception === 'abort') {
+                                msg = 'Ajax request aborted.';
+                            } else {
+                                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                            }
+                            $('.location').html("<li class='errors'>" + msg + "</li>");
+                           
+                            console.log("AJAX to PHP server failed");
+                            console.log(msg);
                             
+                            })
+
+                             // third ajax call to - php file - get data //
+                        $.ajax({
+                            type: 'POST',
+                            url: './getweather.php',
+                            data: {cityName : weatherCity},
+                            dataType: "json"
+                        }).done((response3) => {
+                                console.log(response3)
+                                if (response3.length > 0) {
+
+                                }
+                                for(var i = 0; i < response3.length; i++) {
+                                    var obj = response3[i]
+                                    console.log(obj);
+                                    // create lists from response obj
+                                    $('.city-history').html("<p class='weather'>Past Weather</p><li class='historytime'>" +obj[1]+ "</li><li class='historyicon'><img src=" +obj[2]+"></li><li class='historydescription'>" + obj[0] + "</li>")
+                                     
+                                }
+                            })
+
+                            // error handling
                             .fail (function(jqXHR, exception) {
                             msg = '';
                             if (jqXHR.status === 0) {
@@ -233,172 +279,241 @@ $(document).ready(function(){
             $('form').trigger('reset');
             $('#input-country').focus();
 
-             /* call API */
-             url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
-             $.ajax({
-                 url: url,
-                 type: "POST",
-                 dataType: 'json',
-                 cache: false
-                }).done( function(response) {
-                 const {main, name, sys, weather, dt, cod} = response;
-                 const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
- 
+            /* call API */
+            url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: 'json',
+                cache: false,
+                })
+                .done (function(response1) {
+                    const {main, name, sys, weather, dt, cod} = response1;
+                    const icon = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg';
 
-                 /* send via post */
-                 addData();
-                 /* create a list to pass data into for display */
-                 function addData() {
- 
-                     
-                     weatherMain = capitalizeFirstLetter(weather[0].main);
-                     weatherIcon = weather[0].icon;
-                     weatherIconURL =  "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
-                     weatherTemp = (Math.round(main.temp) + " C");
-                     weatherCity = capitalizeFirstLetter(name);
-                     weatherCountry = (sys.country).toUpperCase();
-                     weatherTime = dt;
-                     optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'}
-                     weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
-                     
-                     
-                     
-                     $('.location').html("<li class='weather-city'>" + weatherCity + ", " + weatherCountry + "</li><li class='country-time'>" + weatherDate + "</li><li><img class='weather-pics' src="+ weatherIconURL +"></li><li>" + weatherMain + "</li><li>" + weatherTemp + "</li>");
-                     
-                };
-                 /* function to capitalize first letter of first string */
-                 function capitalizeFirstLetter(string) {
-                     return string.charAt(0).toUpperCase() + string.slice(1);
-                 }   
-                 
-                 /* function to change background image depending on weather and screen size */
-                 /* ref - https://pixabay.com/photos/ */
-                 var x = window.matchMedia("(max-width: 600px)");
-                 weatherPic(x);
-                 
- 
-                 function weatherPic(x) {
-                     if (weatherMain == 'Clouds') {
-                         if (x.matches) {
-                             $('body').css("background-image", "url(" + "images/cloudy-mobile.jpg" + ")");
-                             }
-                         else {
-                             $('body').css("background-image", "url(" + "images/cloudy-desktop.jpg" + ")");   
-                         }
-                     }
+                    addData();
+                    /* create a list to pass data into for display */
+                    function addData() {
 
-                     else if (weatherMain == 'Thunderstorms') {
-                        if (x.matches) {
-                            $('body').css("background-image", "url(" + "images/thunderstorm-mobile.jpg" + ")");
-                            }
-                        else {
-                            $('body').css("background-image", "url(" + "images/thunderstorm-desktop.jpg" + ")");   
-                        }
-                    }
-                    else if (weatherMain == 'Drizzle') {
-                        if (x.matches) {
-                            $('body').css("background-image", "url(" + "images/drizzle-mobile.jpg" + ")");
-                            }
-                        else {
-                            $('body').css("background-image", "url(" + "images/drizzle-desktop.jpg" + ")");   
-                        }
-                    }
-                    else if (weatherMain == 'Rain') {
-                        if (x.matches) {
-                            $('body').css("background-image", "url(" + "images/rain-mobile.jpg" + ")");
-                            }
-                        else {
-                            $('body').css("background-image", "url(" + "images/rain-desktop.jpg" + ")");   
-                        }
-                    }
-                    else if (weatherMain == 'Snow') {
-                        if (x.matches) {
-                            $('body').css("background-image", "url(" + "images/snow-mobile.jpg" + ")");
-                            }
-                        else {
-                            $('body').css("background-image", "url(" + "images/snow-desktop.jpg" + ")");   
-                        }
-                    }
-                    else if (weatherMain == ('Mist') || weatherMain == ('Smoke') || weatherMain == ('Haze') || weatherMain == ('Dust') || weatherMain == ('Fog') || weatherMain == ('Sand') || weatherMain == ('Ash') || weatherMain == ('Squall')) {
-                        if (x.matches) {
-                            $('body').css("background-image", "url(" + "images/atmosphere-mobile.jpg" + ")");
-                            }
-                        else {
-                            $('body').css("background-image", "url(" + "images/atmosphere-desktop.jpg" + ")");   
-                        }
-                    }
-                    else if (weatherMain == 'Tornado') {
-                        if (x.matches) {
-                            $('body').css("background-image", "url(" + "images/tornado-mobile.jpg" + ")");
-                            }
-                        else {
-                            $('body').css("background-image", "url(" + "images/tornado-desktop.jpg" + ")");   
-                        }
-                    }
-                    else if (weatherMain == 'Clear') {
-                        if (x.matches) {
-                            $('body').css("background-image", "url(" + "images/clear-mobile.jpg" + ")");
-                            }
-                        else {
-                            $('body').css("background-image", "url(" + "images/clear-desktop.jpg" + ")");   
-                        }
-                    }
-                    else {
-                        if (x.matches) {
-                            $('body').css("background-image", "url(" + "images/mobilemain.jpg" + ")");
-                            }
-                        else {
-                            $('body').css("background-image", "url(" + "images/mainpic.jpg" + ")");   
-                        }
+                        weatherMain = capitalizeFirstLetter(weather[0].main);
+                        weatherIcon = weather[0].icon;
+                        weatherIconURL =  "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
+                        weatherTemp = (Math.round(main.temp) + " C");
+                        weatherCity = capitalizeFirstLetter(name);
+                        weatherCountry = (sys.country).toUpperCase();
+                        weatherTime = dt;
+                        optionsDate = {minute: '2-digit', hour: '2-digit', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'GMT', timeZoneName: 'short'};
+                        weatherDate = new Date(dt*1000).toLocaleDateString("en-GB", optionsDate);
+    
+                        $('.location').html(`<li class='weather-city'>${weatherCity}, ${weatherCountry}</li><li class='country-time'>${weatherDate}</li><li class='weather-icon-url'><img class='weather-pics' src=${weatherIconURL}></li><li class='weather-main'>${weatherMain}</li><li class='weather-temp'>${weatherTemp}</li>`);
 
-                    }
-                    
-                     x.addListener(weatherPic)
+                        };
+                        
+                   
+                        
+                    /* function to capitalize first letter of first string */
+                    function capitalizeFirstLetter(string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1);
+                        }
+                    /* function to change background image depending on weather and screen size */
+                    /* ref - https://pixabay.com/photos/ */
+                
+                    var x = window.matchMedia("(max-width: 600px)");
+                    weatherPic(x);
+            
+                    function weatherPic(x) {
+                        if (weatherMain == 'Clouds') {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/cloudy-mobile.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/cloudy-desktop.jpg" + ")");   
+                            }
+                        }
+                        else if (weatherMain == 'Thunderstorms') {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/thunderstorm-mobile.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/thunderstorm-desktop.jpg" + ")");   
+                            }
+                        }
+                        else if (weatherMain == 'Drizzle') {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/drizzle-mobile.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/drizzle-desktop.jpg" + ")");   
+                            }
+                        }
+                        else if (weatherMain == 'Rain') {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/rain-mobile.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/rain-desktop.jpg" + ")");   
+                            }
+                        }
+                        else if (weatherMain == 'Snow') {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/snow-mobile.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/snow-desktop.jpg" + ")");   
+                            }
+                        }
+                        else if (weatherMain == ('Mist') || weatherMain == ('Smoke') || weatherMain == ('Haze') || weatherMain == ('Dust') || weatherMain == ('Fog') || weatherMain == ('Sand') || weatherMain == ('Ash') || weatherMain == ('Squall')) {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/atmosphere-mobile.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/atmosphere-desktop.jpg" + ")");   
+                            }
+                        }
+                        else if (weatherMain == 'Tornado') {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/tornado-mobile.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/tornado-desktop.jpg" + ")");   
+                            }
+                        }
+                        else if (weatherMain == 'Clear') {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/clear-mobile.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/clear-desktop.jpg" + ")");   
+                            }
+                        }
+                        else {
+                            if (x.matches) {
+                                $('body').css("background-image", "url(" + "images/mobilemain.jpg" + ")");
+                                }
+                            else {
+                                $('body').css("background-image", "url(" + "images/mainpic.jpg" + ")");   
+                                };
+                            };
+                        x.addListener(weatherPic)
 
-                     function generateDataForPhp() {
-                        return {main: weatherMain, 
-                                 cityName : weatherCity, 
-                                 weatherIcon: weatherIconURL, 
-                                 temp : weatherTemp,
-                                 date : weatherDate};
-                      }
+                        function generateDataForPhp() {
+                            return {main: weatherMain, 
+                                     cityName : weatherCity, 
+                                     weatherIcon: weatherIconURL, 
+                                     temp : weatherTemp,
+                                     date : weatherDate};
+                          }
 
-                    var data_for_php = generateDataForPhp();
-                    
-                    // second ajax call to php file //
-                    $.ajax({
-                        type: 'POST',
-                        url: './addweather.php',
-                        dataType: "json",
-                        data: data_for_php
+                          var data_for_php = generateDataForPhp();
+                        
+                        // second ajax call to - php file //
+                        $.ajax({
+                            type: 'POST',
+                            url: './addweather.php',
+                            dataType: "json",
+                            data: data_for_php
                         }).done((response2) => {
                                 console.log(response2);
 
+
                             })
+
+                            // erorr handling
+                            .fail (function(jqXHR, exception) {
+                            msg = '';
+                            if (jqXHR.status === 0) {
+                                msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
+                            } else if (jqXHR.status == 404) {
+                                msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
+                            } else if (jqXHR.status == 500) {
+                                msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
+                            } else if (exception === 'parsererror') {
+                                msg = 'Requested JSON parse failed.';
+                            } else if (exception === 'timeout') {
+                                msg = 'Time out error.';
+                            } else if (exception === 'abort') {
+                                msg = 'Ajax request aborted.';
+                            } else {
+                                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                            }
+                            $('.location').html("<li class='errors'>" + msg + "</li>");
+                           
+                            console.log("AJAX to PHP server failed");
+                            console.log(msg);
+                            
+                            })
+
+                             // third ajax call - php file //
+                        $.ajax({
+                            type: 'POST',
+                            url: './getweather.php',
+                            data: {cityName : weatherCity},
+                            dataType: "json"
+                        }).done((response3) => {
+                                console.log(response3)
+                                if (response3.length > 0) {
+
+                                }
+                                for(var i = 0; i < response3.length; i++) {
+                                    var obj = response3[i]
+                                    console.log(obj);
+                                    // create lists from response obj
+                                    $('.city-history').html("<p class='weather'>Past Weather</p></li><li class='historytime'>" +obj[1]+ "</li><li class='historyicon'><img src=" +obj[2]+"></li><li class='historydescription'>" + obj[0] + "</li>")
+                                     
+                                }
+                            })
+
+                            // error handling
+                            .fail (function(jqXHR, exception) {
+                            msg = '';
+                            if (jqXHR.status === 0) {
+                                msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
+                            } else if (jqXHR.status == 404) {
+                                msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
+                            } else if (jqXHR.status == 500) {
+                                msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
+                            } else if (exception === 'parsererror') {
+                                msg = 'Requested JSON parse failed.';
+                            } else if (exception === 'timeout') {
+                                msg = 'Time out error.';
+                            } else if (exception === 'abort') {
+                                msg = 'Ajax request aborted.';
+                            } else {
+                                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                            }
+                            $('.location').html("<li class='errors'>" + msg + "</li>");
+                           
+                            console.log("AJAX to PHP server failed");
+                            console.log(msg);
+                            
+                            }); 
+                    
+                    };
+
+                /* error handling */
+                })
+                .fail (function(jqXHR, exception) {
+                msg = '';
+                if (jqXHR.status === 0) {
+                    msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
+                } else if (jqXHR.status == 404) {
+                    msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
+                } else if (jqXHR.status == 500) {
+                    msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
                 }
-             /* error handling */
-             }).fail( function(jqXHR, exception) {
-                 msg = '';
-                 if (jqXHR.status === 0) {
-                     msg = "Network connection issue" + "<br>" + "[" + jqXHR.status + "]";
-                 } else if (jqXHR.status == 404) {
-                     msg = "Check your country code and spelling are correct. No results found." + "<br>" + "[" +jqXHR.status + "]"; 
-                 } else if (jqXHR.status == 500) {
-                     msg = "Server Error. Try again later." + "<br>" + "[" + jqXHR.status + "]";
-                 } else if (exception === 'parsererror') {
-                     msg = 'Requested JSON parse failed.';
-                 } else if (exception === 'timeout') {
-                     msg = 'Time out error.';
-                 } else if (exception === 'abort') {
-                     msg = 'Ajax request aborted.';
-                 } else {
-                     msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                 }
-                 $('.location').html("<li class='errors'>" + msg + "</li>");
-                  
-             });
+                $('.location').html("<li class='errors'>" + msg + "</li>");
                 
-        }
+                }); 
+        
+        }    
         /* error handling */
         else {
             
