@@ -19,15 +19,5 @@ while($row=mysqli_fetch_array($result)){
 
 
 echo json_encode($output);
-/*   
-}
-    
-else {
-        echo json_encode(array('sql_error' => mysqli_error($conn) ));
-};
 
-
-mysqli_close($conn);
-
-*/
 ?>
