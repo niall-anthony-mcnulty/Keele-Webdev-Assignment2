@@ -207,8 +207,8 @@ $(document).ready(function(){
                                 console.log(response3)
                                 if (response3.length > 0) {
 
-                                
-                                for(var i = 0; i < response3.length; i++) {
+                                // check for past data if records show //
+                                for(var i = 1; i < response3.length; i++) {
                                     var obj = response3[i]
                                     console.log(obj);
                                     // create lists from response obj
@@ -454,8 +454,7 @@ $(document).ready(function(){
                                 console.log(response3)
                                 if (response3.length > 0) {
 
-                                
-                                for(var i = 0; i < response3.length; i++) {
+                                for(var i = 1; i < response3.length; i++) {
                                     var obj = response3[i]
                                     console.log(obj);
                                     // create lists from response obj
