@@ -150,7 +150,7 @@ $(document).ready(function(){
 
                         function generateDataForPhp() {
                             return {main: weatherMain, 
-                                     cityname : weatherCity, 
+                                     cityName : weatherCity, 
                                      weatherIcon: weatherIconURL, 
                                      temp : weatherTemp,
                                      date : weatherDate};
@@ -354,7 +354,7 @@ $(document).ready(function(){
 
                      function generateDataForPhp() {
                         return {main: weatherMain, 
-                                 cityname : weatherCity, 
+                                 cityName : weatherCity, 
                                  weatherIcon: weatherIconURL, 
                                  temp : weatherTemp,
                                  date : weatherDate};
