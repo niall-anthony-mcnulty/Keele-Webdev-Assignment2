@@ -205,7 +205,7 @@ $(document).ready(function(){
                             dataType: "json"
                         }).done((response3) => {
                                 console.log(response3)
-                                if (response3.length > 0) {
+                                if (response3.length > 1) {
 
                                 // check for past data if records show //
                                 for(var i = 1; i < response3.length; i++) {
@@ -452,7 +452,7 @@ $(document).ready(function(){
                             dataType: "json"
                         }).done((response3) => {
                                 console.log(response3)
-                                if (response3.length > 0) {
+                                if (response3.length > 1) {
 
                                 for(var i = 1; i < response3.length; i++) {
                                     var obj = response3[i]
