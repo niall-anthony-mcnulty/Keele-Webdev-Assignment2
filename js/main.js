@@ -37,7 +37,7 @@ $(document).ready(function(){
             url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
             $.ajax({
                 url: url,
-                type: "GET",
+                type: "POST",
                 dataType: 'json'})
                 .done (function(response1) {
                     const {main, name, sys, weather, dt, cod} = response1;
@@ -235,7 +235,7 @@ $(document).ready(function(){
              url =  "https://api.openweathermap.org/data/2.5/weather?q="+inputVal+"&appid="+apiKey+"&lang=en&units=metric";
              $.ajax({
                  url: url,
-                 type: "GET",
+                 type: "POST",
                  dataType: 'json'
                 }).done( function(response) {
                  const {main, name, sys, weather, dt, cod} = response;
