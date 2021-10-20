@@ -6,7 +6,7 @@ require 'includes/dblogin.php';
 $cityName = $_REQUEST['cityName'];
 
 // retreive data
-$sql = "SELECT  weatherMain, weatherDate, weatherIconUrl, city FROM weatherHistory WHERE city = '$cityName' ORDER BY id ASC";
+$sql = "SELECT  weatherMain, weatherDate, weatherIconUrl, city FROM weatherhistory WHERE city = '$cityName' ORDER BY id ASC";
 
 
 $result = mysqli_query($conn, $sql);

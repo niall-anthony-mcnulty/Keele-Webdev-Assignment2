@@ -1,5 +1,5 @@
 
-<?php /*// login.php
+<?php // login.php
 
 //Get Heroku ClearDB connection information
 
@@ -17,7 +17,7 @@ $query_builder = TRUE;
 $conn = mysqli_connect($cleardb_server, $cleardb_username, $cleardb_password, $cleardb_db );
 
 ?>
-*/
+/*
  // login.php
 
 $hn = '127.0.0.1';
