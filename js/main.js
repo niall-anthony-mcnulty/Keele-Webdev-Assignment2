@@ -168,8 +168,6 @@ $(document).ready(function(){
                             data: data_for_php
                         }).done((response2) => {
                                 console.log(response2);
-
-
                             })
 
                             // error handling
@@ -206,16 +204,25 @@ $(document).ready(function(){
                         }).done((response3) => {
                                 console.log(response3)
                                 if (response3.length > 1) {
-
                                 // check for past data if records show //
-                                for(var i = 1; i < response3.length; i++) {
+                                for(let i = 1; i < response3.length; i++) {
                                     var obj = response3[i]
-                                    console.log(obj);
                                     // create lists from response obj
-                                    $('.city-history').html("<p class='weather'>Past Weather</p><li class='historytime'>" +obj[1]+ "</li><li class='historyicon'><img src=" +obj[2]+"></li><li class='historydescription'>" + obj[0] + "</li>")
-                                     
+                                    if (i===1) {
+                                    $('.header-history').html("<h4 class='weather'>Past Weather</h4>");
+                                    $('.city-history').html("<tr><td class='historydescription'>" + obj[0] + "</td></tr><tr><td class='historytime'>" +obj[1]+ "</td></tr><tr><td class='historyicon'><img src=" +obj[2]+"></td></tr>")
+                                                }
+                                    else if (i < 4) {
+                                        $('.city-history').append("<tr><td class='historydescription'>" + obj[0] + "</td></tr><tr><td class='historytime'>" +obj[1]+ "</td></tr><tr><td class='historyicon'><img src=" +obj[2]+"></td></tr>") 
+                                        }
+                                    }
                                 }
-                                }
+                                else {
+                                    $('.city-history').empty();
+                                    $('.weather').empty();
+                                    }
+                                
+                                
                             })
 
                             // error handling
@@ -451,17 +458,28 @@ $(document).ready(function(){
                             data: {cityName : weatherCity},
                             dataType: "json"
                         }).done((response3) => {
-                                console.log(response3)
-                                if (response3.length > 1) {
-
-                                for(var i = 1; i < response3.length; i++) {
-                                    var obj = response3[i]
-                                    console.log(obj);
-                                    // create lists from response obj
-                                    $('.city-history').html("<p class='weather'>Past Weather</p></li><li class='historytime'>" +obj[1]+ "</li><li class='historyicon'><img src=" +obj[2]+"></li><li class='historydescription'>" + obj[0] + "</li>")
-                                    }    
+                            console.log(response3)
+                            if (response3.length > 1) {
+                            // check for past data if records show //
+                            for(let i = 1; i < response3.length; i++) {
+                                var obj = response3[i]
+                                // create lists from response obj
+                                if (i===1) {
+                                    $('.header-history').html("<h4 class='weather'>Past Weather</h4>")
+                                    $('.city-history').html("<tr><td class='historydescription'>" + obj[0] + "</td></tr><tr><td class='historytime'>" +obj[1]+ "</td></tr><tr><td class='historyicon'><img src=" +obj[2]+"></td></tr>") 
+                                            }
+                                else if (i < 3) {
+                                    $('.city-history').append("<tr><td class='historydescription'>" + obj[0] + "</td></tr><tr><td class='historytime'>" +obj[1]+ "</td></tr><tr><td class='historyicon'><img src=" +obj[2]+"></td></tr><") 
+                                    }
                                 }
-                            })
+                            }    
+                            
+                            else {
+                                $('.city-history').empty();
+                                $('.weather').empty();
+                            }
+                            
+                        })
 
                             // error handling
                             .fail (function(jqXHR, exception) {

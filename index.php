@@ -14,8 +14,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Bellota&family=Bellota+Text&display=swap" rel="stylesheet", type='text/css'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="js/main.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 </head>
 <body>
     <main>
@@ -59,10 +61,13 @@
         </div>
         <div class='history container'>
             <div class='center'>
-                <div class='row justify-content-center no-gutters'>
+                <div class='row justify-content-center no-gutters history-row'>
                     <div class='col-xs-12 col-sm-10 col-md-8 col-lg-6 locationhistory'>
-                        <ul class='city-history'>
-                        </ul>
+                        <div class='center'>
+                            <h4 class='header-history'></h4>
+                            <table class='city-history' id='table_id'>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
