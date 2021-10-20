@@ -212,7 +212,7 @@ $(document).ready(function(){
                                     $('.header-history').html("<h4 class='weather'>Past Weather</h4>");
                                     $('.city-history').html("<tr><td class='historydescription'>" + obj[0] + "</td></tr><tr><td class='historytime'>" +obj[1]+ "</td></tr><tr><td class='historyicon'><img src=" +obj[2]+"></td></tr>")
                                                 }
-                                    else if (i < 4) {
+                                    else if (i < 3) {
                                         $('.city-history').append("<tr><td class='historydescription'>" + obj[0] + "</td></tr><tr><td class='historytime'>" +obj[1]+ "</td></tr><tr><td class='historyicon'><img src=" +obj[2]+"></td></tr>") 
                                         }
                                     }
