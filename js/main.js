@@ -1,7 +1,7 @@
 
 $(document).ready(function(){ 
 
-    const apiKey = 'ca3c995a6eebe56bd7a6d2e8dfbf1f55';
+    const apiKey = config.WEATHER_API_KEY;
 
 
     /*  Prevent form submit and capturing the value
