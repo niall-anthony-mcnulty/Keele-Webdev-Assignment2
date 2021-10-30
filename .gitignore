@@ -1,1 +1,7 @@
 
+### This is the content of your .gitignore file
+### -------------------------------------------
+
+config.js
+*.sql
+key.php
